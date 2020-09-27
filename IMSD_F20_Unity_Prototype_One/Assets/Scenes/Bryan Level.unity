@@ -446,7 +446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375176979}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9, y: 0, z: 0}
+  m_LocalPosition: {x: -6.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -468,6 +468,13 @@ MonoBehaviour:
   TimedEnemy: {fileID: 702644968}
   Enemies: {fileID: 99411510}
   Goal: {fileID: 837373859}
+  player: {fileID: 375176983}
+  enemyOne: {fileID: 372724436}
+  enemyTwo: {fileID: 1759979081}
+  enemyThree: {fileID: 351590038}
+  enemyFour: {fileID: 465968551}
+  enemyFive: {fileID: 629544058}
+  enemyCube: {fileID: 702644973}
 --- !u!135 &375176985
 SphereCollider:
   m_ObjectHideFlags: 0
