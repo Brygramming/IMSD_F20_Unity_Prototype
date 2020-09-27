@@ -16,7 +16,7 @@ public class SphereMovement : MonoBehaviour
     public GameObject Goal;
 
     //For New Level
-    private bool newGame;
+    private bool newGame = true;
     public Transform player;
     public Transform enemyOne;
     public Transform enemyTwo;
@@ -35,8 +35,6 @@ public class SphereMovement : MonoBehaviour
 
         //Timed Enemy's Position
 
-        //New Level
-        newGame = true;
     }
 
     // Update is called once per frame
@@ -78,7 +76,7 @@ public class SphereMovement : MonoBehaviour
             //Destroy(Enemies);
             //Destroy(Goal);
             //Destroy(TimedEnemy);
-            transform.position = FinishingPosition;
+            //transform.position = FinishingPosition;
 
             NewLevel();
             Debug.Log("Level: " + levelCount.ToString() + " - Next level!");
@@ -91,6 +89,12 @@ public class SphereMovement : MonoBehaviour
         enemyCube.position = new Vector3(-15, 1);
         if (newGame)
         {
+            enemyOne.localScale = new Vector3(1, 1);
+            enemyTwo.localScale = new Vector3(1, 1);
+            enemyThree.localScale = new Vector3(1, 1);
+            enemyFour.localScale = new Vector3(1, 2.5f);
+            enemyFive.localScale = new Vector3(1, 6);
+
             enemyOne.position = new Vector3(-5, -3);
             enemyTwo.position = new Vector3(0, -3);
             enemyThree.position = new Vector3(5, -3);
@@ -101,6 +105,12 @@ public class SphereMovement : MonoBehaviour
         else
         {
             //Random pattern
+            enemyOne.localScale = new Vector3(1, Random.Range(1f, 7f));
+            enemyTwo.localScale = new Vector3(1, Random.Range(1f, 7f));
+            enemyThree.localScale = new Vector3(1, Random.Range(1f, 7f));
+            enemyFour.localScale = new Vector3(1, Random.Range(1f, 7f));
+            enemyFive.localScale = new Vector3(1, Random.Range(1f, 7f));
+
             enemyOne.position = new Vector3(-5, Random.Range(-5f, 8f));
             enemyTwo.position = new Vector3(0, Random.Range(-5f, 8f));
             enemyThree.position = new Vector3(5, Random.Range(-5f, 8f));
