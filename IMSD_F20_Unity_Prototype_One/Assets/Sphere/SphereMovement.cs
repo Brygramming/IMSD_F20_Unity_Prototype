@@ -7,14 +7,22 @@ public class SphereMovement : MonoBehaviour
 	public float MovementAmt;
 	Vector3 StartingPosition;
 	Vector3 FinishingPosition;
-	public GameObject Enemies;
-	public GameObject Goal;
+
+    //For Timed Enemy
+    public GameObject TimedEnemy;
+    Vector3 TimedEnemyPosition;
+
+    public GameObject Enemies;
+    public GameObject Goal;
 
     // Start is called before the first frame update
     void Start()
     {
         StartingPosition = transform.position;
         FinishingPosition = new Vector3(0, 0, 0);
+        TimedEnemyPosition = TimedEnemy.transform.position;
+
+        //Timed Enemy's Position
     }
 
     // Update is called once per frame
@@ -45,10 +53,15 @@ public class SphereMovement : MonoBehaviour
     	{
     		transform.position = StartingPosition;
     		Debug.Log("Enemy touched");
+
+            //Timed Enemy
+            TimedEnemy.transform.position = TimedEnemyPosition;
+            Debug.Log("Timed Enemy Touched");
     	} else if(Tch.gameObject.tag == "Win")
     	{
     		Destroy(Enemies);
     		Destroy(Goal);
+            Destroy(TimedEnemy);
     		transform.position = FinishingPosition;
     		Debug.Log("You Win");
     	}
