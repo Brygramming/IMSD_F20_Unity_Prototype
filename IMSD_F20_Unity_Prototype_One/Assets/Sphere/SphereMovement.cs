@@ -108,10 +108,10 @@ public class SphereMovement : MonoBehaviour
         {
             //Random pattern
             enemyOne.localScale = new Vector3(1, scale = Random.Range(1f, 7f));
-            enemyTwo.localScale = new Vector3(1, scale = Random.Range(1, 7));
-            enemyThree.localScale = new Vector3(1, scale = Random.Range(1f, 7f));
-            enemyFour.localScale = new Vector3(1, scale = Random.Range(1f, 7f));
-            enemyFive.localScale = new Vector3(1, scale = Random.Range(1f, 7f));
+            enemyTwo.localScale = new Vector3(1, scale = Random.Range(1, 6f));
+            enemyThree.localScale = new Vector3(1, scale = Random.Range(1f, 4f));
+            enemyFour.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
+            enemyFive.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
 
             enemyOne.position = new Vector3(-5, Random.Range(-5f, 8f));
             enemyTwo.position = new Vector3(0, Random.Range(-5f, 8f));
@@ -135,7 +135,7 @@ public class SphereMovement : MonoBehaviour
         NewLevel();
     }
 
-    public void Hud(int _level, int _damage)
+    public void Hud(int _level, int _damage)  //A.I.
     {
         timer += Time.deltaTime;
         if (timer >= 1)
