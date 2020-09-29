@@ -30,6 +30,7 @@ public class SphereMovement : MonoBehaviour
     private float timer;
     private int level;
     private int damage;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +45,7 @@ public class SphereMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Sphere Movements
         if (Input.GetKey(KeyCode.A))
         {
             transform.position += new Vector3(-MovementAmt * Time.deltaTime, 0, 0);
@@ -63,7 +65,9 @@ public class SphereMovement : MonoBehaviour
         {
             transform.position = new Vector3(9, 0, 0);
         }
-        Hud(level, damage);        //Text
+
+        //Text
+        Hud(level, damage);
 
     }
 
@@ -72,21 +76,26 @@ public class SphereMovement : MonoBehaviour
         if (Tch.gameObject.tag == "Enemy")
             Damage();
         else if (Tch.gameObject.tag == "Win")
+        {
             NewLevel();
-        /*        {
-                    Destroy(Enemies);
-                    Destroy(Goal);
-                    Destroy(TimedEnemy);
-                    transform.position = FinishingPosition;
-                    Debug.Log("Level: " + levelCount.ToString() + " - Next level!");
-                }*/
+
+            /*Destroy(Enemies);
+            Destroy(Goal);
+            Destroy(TimedEnemy);
+            transform.position = FinishingPosition;
+            Debug.Log("Level: " + levelCount.ToString() + " - Next level!")*/
+        }
     }
-    void NewLevel()     //A.I.
+
+    //A.I.
+    void NewLevel()
     {
         float scale;
+
         //Default startup pattern
         player.position = new Vector3(-6.6f, 0);
         enemyCube.position = new Vector3(-15, 1);
+        
         if (newGame)
         {
             enemyOne.localScale = new Vector3(1, 1);
@@ -118,24 +127,28 @@ public class SphereMovement : MonoBehaviour
             enemyThree.position = new Vector3(5, Random.Range(-5f, 8f));
             enemyFour.position = new Vector3(-2.5f, Random.Range(-5f, 8f));
             enemyFive.position = new Vector3(2.5f, Random.Range(-5f, 8f));
-            level++;
-            
+            level++;  
         }
         newGame = false;
 
     }
 
-    void Damage()     //A.I.
+    //A.I.
+    void Damage()
     {
         damage++;
         level--;
 
-        if (damage >= 3) //GameOver
+        //GameOver
+        if (damage >= 3)
+        {
             newGame = true;
+        }
         NewLevel();
     }
 
-    public void Hud(int _level, int _damage)  //A.I.
+    //A.I.
+    public void Hud(int _level, int _damage)
     {
         timer += Time.deltaTime;
         if (timer >= 1)
