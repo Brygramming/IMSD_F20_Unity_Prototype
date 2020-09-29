@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,21 +25,21 @@ public class SphereMovement : MonoBehaviour
     public Transform enemyThree;
     public Transform enemyFour;
     public Transform enemyFive;
-    public Transform enemyCube;
+    public Transform enemyCube; //Timed-Cube
     public Text text;
     public int time;
     private float timer;
     private int level;
     private int damage;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         StartingPosition = transform.position;
         FinishingPosition = new Vector3(0, 0, 0);
-        TimedEnemyPosition = TimedEnemy.transform.position;
+        TimedEnemyPosition = TimedEnemy.transform.position;         //Timed Enemy's Position
         time = 0;
-        //Timed Enemy's Position
+        level = 1;
 
     }
 
@@ -77,6 +78,7 @@ public class SphereMovement : MonoBehaviour
             Damage();
         else if (Tch.gameObject.tag == "Win")
         {
+            level++;
             NewLevel();
 
             /*Destroy(Enemies);
@@ -95,9 +97,11 @@ public class SphereMovement : MonoBehaviour
         //Default startup pattern
         player.position = new Vector3(-6.6f, 0);
         enemyCube.position = new Vector3(-15, 1);
-        
-        if (newGame)
+
+
+        if (level == 1)
         {
+
             enemyOne.localScale = new Vector3(1, 1);
             enemyTwo.localScale = new Vector3(1, 1);
             enemyThree.localScale = new Vector3(1, 1);
@@ -109,27 +113,46 @@ public class SphereMovement : MonoBehaviour
             enemyThree.position = new Vector3(5, -3);
             enemyFour.position = new Vector3(-2.5f, -3);
             enemyFive.position = new Vector3(2.5f, -3);
-            time = time - time;
-            level = 1;
-            damage = 0;
+
         }
+
+        else if (level == 2)
+        {
+            enemyOne.localScale = new Vector3(1, 1);
+            enemyTwo.localScale = new Vector3(1, 3.87f);
+            enemyThree.localScale = new Vector3(1, 2.46f);
+            enemyFour.localScale = new Vector3(1, 2.5f);
+            enemyFive.localScale = new Vector3(1, 6);
+
+            enemyOne.position = new Vector3(-5, -3.92f);
+            enemyTwo.position = new Vector3(0, 1.85f);
+            enemyThree.position = new Vector3(5, 0.5f);
+            enemyFour.position = new Vector3(-2.5f, -3);
+            enemyFive.position = new Vector3(2.5f, -3);
+
+        }
+
         else
         {
             //Random pattern
-            enemyOne.localScale = new Vector3(1, scale = Random.Range(1f, 7f));
-            enemyTwo.localScale = new Vector3(1, scale = Random.Range(1, 6f));
+            enemyOne.localScale = new Vector3(1, scale = Random.Range(1f, 5f));
+            enemyTwo.localScale = new Vector3(1, scale = Random.Range(1, 5f));
             enemyThree.localScale = new Vector3(1, scale = Random.Range(1f, 4f));
             enemyFour.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
             enemyFive.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
 
-            enemyOne.position = new Vector3(-5, Random.Range(-5f, 8f));
-            enemyTwo.position = new Vector3(0, Random.Range(-5f, 8f));
+            enemyOne.position = new Vector3(-5, Random.Range(-5f, 7f));
+            enemyTwo.position = new Vector3(0, Random.Range(-5f, 7f));
             enemyThree.position = new Vector3(5, Random.Range(-5f, 8f));
             enemyFour.position = new Vector3(-2.5f, Random.Range(-5f, 8f));
             enemyFive.position = new Vector3(2.5f, Random.Range(-5f, 8f));
-            level++;  
+
+
+
         }
-        newGame = false;
+
+
+        //newGame = false;
 
     }
 
@@ -137,13 +160,15 @@ public class SphereMovement : MonoBehaviour
     void Damage()
     {
         damage++;
-        level--;
-
         //GameOver
         if (damage >= 3)
         {
+            time = time - time;
+            level = 1;
+            damage = 0;
             newGame = true;
         }
+
         NewLevel();
     }
 
