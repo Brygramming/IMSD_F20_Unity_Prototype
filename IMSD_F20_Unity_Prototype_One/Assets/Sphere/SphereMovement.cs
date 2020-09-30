@@ -3,44 +3,44 @@ using System.Collections.Generic;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SphereMovement : MonoBehaviour
 {
     public float MovementAmt;
     Vector3 StartingPosition;
-    Vector3 FinishingPosition;
+    int SceneCounter = 0;
 
     //For Timed Enemy
     public GameObject TimedEnemy;
     Vector3 TimedEnemyPosition;
 
-    public GameObject Enemies;
-    public GameObject Goal;
-
     //For New Level
-    private bool newGame = true;
-    public Transform player;
+    private bool newGame;
+    public Transform[] Enemy;
+    public GameObject RandomEnemies;
+    /*public Transform player;
     public Transform enemyOne;
     public Transform enemyTwo;
     public Transform enemyThree;
     public Transform enemyFour;
     public Transform enemyFive;
-    public Transform enemyCube; //Timed-Cube
-    public Text text;
-    public int time;
-    private float timer;
-    private int level;
+    public Transform enemyCube;*/ //Timed-Cube
+    public Text TextHUD;
+    static public int time;
+    static private float timer;
+    static private int level;
     private int damage;
 
     // Start is called before the first frame update
     void Start()
     {
         StartingPosition = transform.position;
-        FinishingPosition = new Vector3(0, 0, 0);
         TimedEnemyPosition = TimedEnemy.transform.position;         //Timed Enemy's Position
         time = 0;
         level = 1;
-
+        newGame = false;
+        //Enemy = transform.tag("Enemy");
     }
 
     // Update is called once per frame
@@ -67,25 +67,39 @@ public class SphereMovement : MonoBehaviour
             transform.position = new Vector3(9, 0, 0);
         }
 
-        //Text
-        Hud(level, damage);
+        if(newGame == true)
+        	{
+        		SceneCounter = 0;
+        		SceneManager.LoadScene(SceneCounter, LoadSceneMode.Single);
+        		newGame = false;
+        		Debug.Log("New Game");
+        	}
 
+        //Text
+        Hud(); //level, damage
     }
 
     void OnTriggerEnter(Collider Tch)
     {
         if (Tch.gameObject.tag == "Enemy")
+        {
             Damage();
+            Debug.Log("player Damaged");
+    	}
         else if (Tch.gameObject.tag == "Win")
         {
             level++;
             NewLevel();
-
-            /*Destroy(Enemies);
-            Destroy(Goal);
-            Destroy(TimedEnemy);
-            transform.position = FinishingPosition;
-            Debug.Log("Level: " + levelCount.ToString() + " - Next level!")*/
+            
+            if(SceneCounter >= 3)
+            {
+            	SceneCounter = 3;
+            }
+            else
+            {
+            	SceneCounter++;
+            	SceneManager.LoadScene(SceneCounter, LoadSceneMode.Single);
+            }
         }
     }
 
@@ -95,65 +109,27 @@ public class SphereMovement : MonoBehaviour
         float scale;
 
         //Default startup pattern
-        player.position = new Vector3(-6.6f, 0);
-        enemyCube.position = new Vector3(-15, 1);
+        transform.position = StartingPosition;
+        TimedEnemy.transform.position = TimedEnemyPosition;
 
-
-        if (level == 1)
+        if(level >= 4)
         {
-
-            enemyOne.localScale = new Vector3(1, 1);
-            enemyTwo.localScale = new Vector3(1, 1);
-            enemyThree.localScale = new Vector3(1, 1);
-            enemyFour.localScale = new Vector3(1, 2.5f);
-            enemyFive.localScale = new Vector3(1, 6);
-
-            enemyOne.position = new Vector3(-5, -3);
-            enemyTwo.position = new Vector3(0, -3);
-            enemyThree.position = new Vector3(5, -3);
-            enemyFour.position = new Vector3(-2.5f, -3);
-            enemyFive.position = new Vector3(2.5f, -3);
-
-        }
-
-        else if (level == 2)
-        {
-            enemyOne.localScale = new Vector3(1, 1);
-            enemyTwo.localScale = new Vector3(1, 3.87f);
-            enemyThree.localScale = new Vector3(1, 2.46f);
-            enemyFour.localScale = new Vector3(1, 2.5f);
-            enemyFive.localScale = new Vector3(1, 6);
-
-            enemyOne.position = new Vector3(-5, -3.92f);
-            enemyTwo.position = new Vector3(0, 1.85f);
-            enemyThree.position = new Vector3(5, 0.5f);
-            enemyFour.position = new Vector3(-2.5f, -3);
-            enemyFive.position = new Vector3(2.5f, -3);
-
-        }
-
-        else
-        {
+        	RandomEnemies.SetActive(true);
             //Random pattern
-            enemyOne.localScale = new Vector3(1, scale = Random.Range(1f, 5f));
-            enemyTwo.localScale = new Vector3(1, scale = Random.Range(1, 5f));
-            enemyThree.localScale = new Vector3(1, scale = Random.Range(1f, 4f));
-            enemyFour.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
-            enemyFive.localScale = new Vector3(1, scale = Random.Range(1f, 6f));
+            Enemy[0].localScale = new Vector3(1, scale = Random.Range(1f, 5f), 1);
+            Enemy[1].localScale = new Vector3(1, scale = Random.Range(1, 5f), 1);
+            Enemy[2].localScale = new Vector3(1, scale = Random.Range(1f, 4f), 1);
+            Enemy[3].localScale = new Vector3(1, scale = Random.Range(1f, 6f), 1);
+            Enemy[4].localScale = new Vector3(1, scale = Random.Range(1f, 6f), 1);
+            Debug.Log("Random Levels");
 
-            enemyOne.position = new Vector3(-5, Random.Range(-5f, 7f));
+            /*enemyOne.position = new Vector3(-5, Random.Range(-5f, 7f));
             enemyTwo.position = new Vector3(0, Random.Range(-5f, 7f));
             enemyThree.position = new Vector3(5, Random.Range(-5f, 8f));
             enemyFour.position = new Vector3(-2.5f, Random.Range(-5f, 8f));
-            enemyFive.position = new Vector3(2.5f, Random.Range(-5f, 8f));
-
-
-
+            enemyFive.position = new Vector3(2.5f, Random.Range(-5f, 8f));*/
         }
-
-
         //newGame = false;
-
     }
 
     //A.I.
@@ -166,14 +142,16 @@ public class SphereMovement : MonoBehaviour
             time = time - time;
             level = 1;
             damage = 0;
+            RandomEnemies.SetActive(false);
             newGame = true;
         }
-
-        NewLevel();
+        transform.position = StartingPosition;
+        TimedEnemy.transform.position = TimedEnemyPosition;
+        //NewLevel();
     }
 
     //A.I.
-    public void Hud(int _level, int _damage)
+    public void Hud() //int _level, int _damage
     {
         timer += Time.deltaTime;
         if (timer >= 1)
@@ -181,6 +159,6 @@ public class SphereMovement : MonoBehaviour
             timer = 0;
             time += 1;
         }
-        text.text = "Level: " + _level + " | Live: " + (3 - _damage) + " | Time: " + time.ToString();
+        TextHUD.text = "Level: " + level + " | Live: " + (3 - damage) + " | Time: " + time.ToString();
     }
 }
